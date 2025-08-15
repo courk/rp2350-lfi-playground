@@ -30,6 +30,8 @@ The following dependencies are required:
 - [`libcyusbserial`](https://github.com/cyrozap/libcyusbserial/tree/master)
 - [`poetry`](https://python-poetry.org/docs/#installing-with-the-official-installer)
 
+This project includes code from [`pySangaboard`](https://gitlab.com/bath_open_instrumentation_group/pysangaboard) under the terms of the _GNU General Public License v3_.
+
 ## Installation
 
 On the target, a simple `poetry install` is sufficient.
