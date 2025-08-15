@@ -1,0 +1,49 @@
+<div class="navbar bg-base-100 shadow-sm">
+    <div class="navbar-start">
+        <div class="flex gap-6 items-center">
+            <img class="h-16" src="/static/courk_logo.png" />
+            <div class="tooltip tooltip-right"
+                data-tip="This &quot;Laser Fault Injection Platform&quot; is based on Openflexure's Delta Stage">
+                <img class="h-16" src="/static/of_logo.png" />
+            </div>
+            {% if laser_type == "high-power" %}
+            <img class="h-16" src="/static/laser_logo.png" />
+            {% endif %}
+            {% if admin_mode %} <div class="badge badge-error">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
+                </svg>
+                Admin Mode
+            </div> {% endif %}
+        </div>
+    </div>
+
+    <div class="navbar-center flex flex-col">
+        <div class="text-2xl font-semibold">RP2350 Laser Fault Injection Playground</div>
+        <div class="text-xs italic text-right w-full text-base-content/30">{{ version_string }}</div>
+    </div>
+
+    <div class="navbar-end h-full">
+        <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+                <span id="pulse_counter" class="text-left font-mono">
+                    0
+                </span>
+                <span class="text-sm">
+                    Laser Pulses
+                </span>
+            </div>
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+                <span id="success_counter" class="text-left font-mono">
+                    0
+                </span>
+                <span class="text-sm">
+                    Successful Glitches
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

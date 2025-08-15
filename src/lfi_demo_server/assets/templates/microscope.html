@@ -1,0 +1,17 @@
+<div class="relative h-full">
+    <img onmouseover="this.focus()" onmouseout="this.blur()" tabindex="0" id="microscope_view" src="/stream"
+        onerror="if (this.src != '/static/camera_error.png') this.src = '/static/camera_error.png';"
+        class="size-full object-contain" />
+    <p class="text-xs absolute bottom-2 left-6 badge badge-soft badge-info">
+        Use the arrow keys to move the stage. Scroll to change focus.
+    </p>
+    <div class="text-s absolute top-2 left-6 badge badge-soft badge-info">
+        <div class="tooltip tooltip-bottom" data-tip="Post process the video for better imaging">
+            <label class="label text-xs">
+                <input autocomplete="off" name="value" value="1" type="checkbox" class="toggle toggle-xs"
+                    hx-get="/control/camera_enhance" hx-swap="none" {% if camera_enhance %} checked {% endif %} />
+                Enhance Image
+            </label>
+        </div>
+    </div>
+</div>

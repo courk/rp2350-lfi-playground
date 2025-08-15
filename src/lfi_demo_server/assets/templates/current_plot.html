@@ -1,0 +1,25 @@
+<div class="card-body">
+    <div class="card-title flex justify-between w-full">
+        <h2>Target Current Consumption</h2>
+        <span id="power_status_disabled" class="badge badge-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-bolt-off">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 3l18 18" />
+                <path d="M15.212 15.21l-4.212 5.79v-7h-6l3.79 -5.21m1.685 -2.32l2.525 -3.47v6m1 1h5l-2.104 2.893" />
+            </svg>
+            Power Disabled
+        </span>
+        <span id="power_status_enabled" class="badge badge-success hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-bolt">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" />
+            </svg>
+            Power Enabled
+        </span>
+    </div>
+    <div class="h-full"><canvas id="current_plot"></canvas></div>
+</div>

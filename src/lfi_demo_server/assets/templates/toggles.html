@@ -1,0 +1,29 @@
+<div class="card-body flex flex-col place-content-between">
+    <h2 class="card-title">Toggle Features</h2>
+
+    <div class="tooltip tooltip-right" data-tip="Control the power supply of the RP2350">
+        <label class="label">
+            <input id="target_en_toggle" autocomplete="off" name="value" value="1" type="checkbox" class="toggle"
+                hx-get="/control/target_en" hx-swap="none" {% if target_en %} checked {% endif %} />
+            Enable Target
+        </label>
+    </div>
+
+    <div class="tooltip tooltip-right" data-tip="Control the infrared LED used for observing the RP2350 die">
+        <label class="label">
+            <input autocomplete="off" name="value" value="1" type="checkbox" class="toggle"
+                hx-get="/control/illumination_en" hx-swap="none" {% if illumination_en %} checked {% endif %} />
+            Enable Illumination
+        </label>
+    </div>
+
+    <div class="tooltip tooltip-right tooltip-warning" data-tip="Control the power supply of the Laser Pulser Board">
+        <label class="label">
+            <input {% if laser_type=="none" %} disabled {% endif %} autocomplete="off" name="value" value="1"
+                type="checkbox" class="toggle toggle-error" hx-get="/control/laser_arm" hx-swap="none" {% if laser_arm
+                %} checked {% endif %} />
+            Arm Laser
+        </label>
+    </div>
+
+</div>

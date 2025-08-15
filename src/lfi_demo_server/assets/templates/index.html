@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>
+        RP2350 Laser Fault Injection Playground
+    </title>
+
+    <script src="/static/chart.js"></script>
+    <script src="/static/htmx.min.js"></script>
+
+    <link href="/static/style.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        window.script_config = {
+            n_current_samples: parseInt("{{ n_current_samples }}"),
+            current_sampling_rate: parseInt("{{ current_sampling_rate }}"),
+            enable_audio: "{{ enable_audio }}".toLowerCase() == "true",
+        };
+    </script>
+
+</head>
+
+<body>
+
+    {% include "success.html" %}
+
+    <div class="flex h-screen w-screen p-1 bg-base-200">
+        <div class="flex-grow grid grid-cols-6 grid-rows-10 gap-4">
+            <div class="col-span-6">
+                {% include "title.html" %}
+            </div>
+            <div class="col-span-3 row-span-7 row-start-2 col-start-2">
+                <div class="h-full tabs tabs-lift tabs-bottom">
+                    <input type="radio" name="tabs" class="tab" aria-label="Microscope View" checked="checked" />
+                    <div class="tab-content bg-base-100 border-base-300 p-6 shadow-sm">
+                        {% include "microscope.html" %}
+                    </div>
+
+                    <input type="radio" name="tabs" class="tab" aria-label="Source Code" />
+                    <div class="tab-content bg-base-100 border-base-300 p-6 shadow-sm">
+                        {% include "source_code.html" %}
+                    </div>
+
+                    <input type="radio" name="tabs" class="tab" aria-label="About" />
+                    <div class="tab-content bg-base-100 border-base-300 p-6 shadow-sm overflow-auto">
+
+                        <div class="card bg-base-100 card-xs shadow-sm float-right">
+                            <div class="card-body">
+                                <div class="flex flex-col items-center">
+                                    <img src="/static/qrcode.png" />
+                                    <div>Blog Post</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <article class="prose max-w-none">{{ about_content }}</article>
+                    </div>
+                </div>
+            </div>
+
+            <div id="stage_coordinates_card"
+                class="col-start-1 row-span-7 col-span-1 row-start-2 card bg-base-100 shadow-sm" hx-get="/stage"
+                hx-trigger="load">
+            </div>
+
+            <div class="col-span-4 row-span-1">
+                <div class="flex gap-4">
+                    <div class="card bg-base-100 shadow-sm">
+                        {% include "toggles.html" %}
+                    </div>
+                    <div class="flex-grow card bg-base-100 shadow-sm">
+                        {% include "power_settings.html" %}
+                    </div>
+                    <div class="flex-grow card bg-base-100 shadow-sm">
+                        {% include "buttons.html" %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-span-3 col-start-5 col-span-2 row-start-2 card bg-base-100 shadow-sm">
+                {% include "current_plot.html" %}
+            </div>
+            <div class="row-span-3 col-start-5 col-span-2 row-start-5 card bg-base-100 shadow-sm">
+                {% include "serial_logs.html" %}
+            </div>
+            <div class="row-span-3 col-start-5 col-span-2 row-start-8 card bg-base-100 shadow-sm">
+                {% include "supervisor_logs.html" %}
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>

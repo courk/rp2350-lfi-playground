@@ -1,0 +1,79 @@
+[target_firmware]
+image = "firmware/build/firmware.uf2"
+flash_retries = 3
+
+[current_monitoring]
+limit = 50 # mA
+rate = 5   # SPS
+
+[timing]
+reset_cooldown = 1.0       # seconds
+serial_timeout = 1.5       # seconds
+serial_open_cooldown = 1.5 # seconds
+
+[reset]
+# Display a warning message when illumination is enabled
+# and the target serial cannot be acquired after this
+# number of attempts
+illumination_warning_count_threshold = 1
+# Disable the target automatically when serial cannot be acquired
+# after this number of attempts
+target_disable_count_threshold = 5
+
+[serial_hardware]
+name = "Pico - Board CDC"
+open_retries = 3
+
+[serial_data]
+no_success_regex = "^Iteration \\d+ - Sum = \\d+$"
+success_regex = "^Glitch detected$"
+
+[illumination]
+default_power = 0.8 # [0.0, 1.0]
+
+[laser]
+default_power = 0.1       # [0.0, 1.0]
+min_voltage = 8.0         # V
+max_voltage = 60.0        # V
+pulse_rate_limit = 2.0    # pulses/s
+safe_pulse_duration = 0.5 # s
+
+[server]
+host = "0.0.0.0"
+port = 8080
+n_current_samples = 64
+target_source_code = "firmware/firmware.c"
+enable_audio = true
+
+[stage]
+x_steps = [100, 500, 1000]
+y_steps = [100, 500, 1000]
+z_steps = [10, 50, 100]
+default_x_step = 500
+default_y_step = 500
+default_z_step = 50
+x_limits = [-10000, 10000]
+y_limits = [-10000, 10000]
+z_limits = [-5000, 5000]
+autolock_timeout = 60      # s
+
+[camera]
+resolution = [800, 600]
+sps = 15                                                       # SPS
+analog_gain = 8.0                                              # [1.0, 16.0]
+contrast = 1.0                                                 # [0.0, 32.0]
+sharpness = 1.0                                                # [0.0, 16.0]
+exposure_time = 50e-3                                          # s
+color_gains = [1.54296875, 1.9140625]
+n_buffered_samples = 64
+n_averaging_samples = 16
+normalization_alpha = 0.75                                     # [0.0, 1.0]
+tuning_file = "src/lfi_demo_server/assets/camera_tuning.json"
+scale_image = "src/lfi_demo_server/assets/scale_indicator.png"
+
+[dev]
+admin_mode = true
+# use_dummy_delta_stage = true
+# use_dummy_lfi_board = true
+skip_firmware_flash = true
+force_dummy_laser_pulser = false

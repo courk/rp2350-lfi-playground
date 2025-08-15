@@ -1,0 +1,202 @@
+<div class="card-body flex flex-col overflow-auto">
+    <div class="card-title flex justify-between">
+        <h2 class="card-title">Stage Controls</h2>
+        {% if state == "idle" %}
+        <span id="stage_status" class="badge badge-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-playstation-circle">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
+                <path d="M12 12m-4.5 0a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0" />
+            </svg>
+            Idle
+        </span>
+        {% elif state == "locked" %}
+        <span id="stage_status" class="badge badge-neutral">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+            </svg>
+            Locked
+        </span>
+        {% elif state == "moving" %}
+        <span id="stage_status" class="badge badge-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-zig-zag">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 20v-10l10 6v-12" />
+                <path d="M13 7l3 -3l3 3" />
+            </svg>
+            Moving
+        </span>
+        {% endif %}
+    </div>
+    <div class="grid grid-cols-1 gap-4 h-full place-content-around">
+        <form hx-post="/stage/coordinates" hx-swap="none">
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-2">
+                <legend class="fieldset-legend">Coordinates</legend>
+                <div>
+                    <label class="input input-sm {% if x_endstop %} input-error {% endif %}">
+                        <span class="label">X</span>
+                        <input pattern="^[\-\+]?\d+$" name="x_coord" class="font-mono" value="{{ x_coord }}"
+                            autocomplete="off" {% if state!='idle' %} disabled {% endif %} />
+                    </label>
+                </div>
+                <div>
+                    <label class="input input-sm {% if y_endstop %} input-error {% endif %}">
+                        <span class="label">Y</span>
+                        <input pattern="^[\-\+]?\d+$" name="y_coord" class="font-mono" value="{{ y_coord }}"
+                            autocomplete="off" {% if state!='idle' %} disabled {% endif %} />
+                    </label>
+                </div>
+                <div>
+                    <label class="input input-sm {% if z_endstop %} input-error {% endif %}">
+                        <span class="label">Z</span>
+                        <input pattern="^[\-\+]?\d+$" name="z_coord" class="font-mono" value="{{ z_coord }}"
+                            autocomplete="off" {% if state!='idle' %} disabled {% endif %} />
+                    </label>
+                </div>
+                <div>
+                    <button type="submit"
+                        class="btn btn-primary w-full {% if state != 'idle' %} btn-disabled {% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-zig-zag">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 20v-10l10 6v-12" />
+                            <path d="M13 7l3 -3l3 3" />
+                        </svg>
+                        Move
+                    </button>
+                </div>
+                <div>
+                    <button hx-get="/stage/center" hx-trigger="click throttle:1s" hx-swap="none"
+                        class="btn btn-primary w-full {% if state != 'idle' %} btn-disabled {% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-focus-centered">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                            <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+                            <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+                            <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+                            <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+                        </svg>
+                        Center
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+
+        <form hx-post="/stage/steps" hx-swap="none">
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-2">
+                <legend class="fieldset-legend">Displacement Steps</legend>
+                <label hx-post="/stage" hx-target="#stage_coordinates_card" hx-trigger="change"
+                    class="select select-sm w-full">
+                    <span class="label">X</span>
+                    <select name="x_step" class="font-mono" autocomplete="off" {% if state !="idle" %} disabled {% endif %}>
+                        {% for value in x_steps %}
+                        <option {% if value==x_step %} selected {% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label hx-post="/stage/steps" hx-swap="none" hx-trigger="change" class="select select-sm w-full">
+                    <span class="label">Y</span>
+                    <select name="y_step" class="font-mono" autocomplete="off" {% if state !="idle" %} disabled {% endif %}>
+                        {% for value in y_steps %}
+                        <option {% if value==y_step %} selected {% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label hx-post="/stage/steps" hx-swap="none" hx-trigger="change" class="select select-sm">
+                    <span class="label">Z</span>
+                    <select name="z_step" class="font-mono" autocomplete="off" {% if state !="idle" %} disabled {% endif %}>
+                        {% for value in z_steps %}
+                        <option {% if value==z_step %} selected {% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <div>
+                    <button hx-get="/stage/reset_steps" hx-swap="none"
+                        class="btn btn-primary w-full {% if state != 'idle' %} btn-disabled {% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+
+        {% if admin_mode %}
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-2">
+            <legend class="fieldset-legend">Admin Controls</legend>
+            <div>
+                <button hx-get="/stage/zero_position" hx-swap="none"
+                    class="btn btn-accent w-full {% if state != 'idle' %} btn-disabled {% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dashed-number-0">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" />
+                        <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" />
+                        <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" />
+                        <path d="M8.56 20.31a9 9 0 0 0 3.44 .69" />
+                        <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" />
+                        <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" />
+                        <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" />
+                        <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" />
+                        <path d="M10 10v4a2 2 0 1 0 4 0v-4a2 2 0 1 0 -4 0z" />
+                    </svg>
+                    Zero Coordinates
+                </button>
+            </div>
+            <label class="label">
+                <input {% if state !='idle' %} disabled {% endif %} autocomplete="off" name="value" value="1"
+                    type="checkbox" class="toggle toggle-error" hx-get="/stage/bypass_endstops" hx-swap="none" {% if
+                    bypass_endstops %} checked {% endif %} />
+                Ignore endstops
+            </label>
+        </fieldset>
+        {% endif %}
+
+        <div>
+            {% if state == "locked" %}
+            <button hx-get="/stage/unlock" hx-trigger="click" hx-swap="none" class="btn btn-block btn-warning w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                    <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                    <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                </svg>
+                Unlock Stage
+            </button>
+            {% else %}
+            <button hx-get="/stage/lock" hx-trigger="click" hx-swap="none"
+                class="btn btn-block w-full {% if state != 'idle' %} btn-disabled {% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                    <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                    <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                </svg>
+                Lock Stage
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>

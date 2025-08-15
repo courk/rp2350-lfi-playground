@@ -1,0 +1,14 @@
+<div class="card-body flex flex-col place-content-between">
+    <h2 class="card-title">Power Settings</h2>
+    <div>
+        <p class="label">Laser</p>
+        <input {% if laser_type != "high-power" %} disabled {% endif %} autocomplete="off" hx-get="/control/laser_power"
+            hx-swap="none" name="value" type="range" min="0" max="100" {% if laser_type == "high-power" %} value="{{ laser_power }}"
+            {% elif laser_type == "low-power" %} value="100" {% else %} value="0" {% endif %} class="range range-xs range-warning w-full" />
+    </div>
+    <div>
+        <p class="label">Illumination</p>
+        <input autocomplete="off" hx-get="/control/illumination_power" hx-swap="none" name="value" type="range" min="0"
+            max="100" value="{{ illumination_power }}" class="range range-xs w-full" />
+    </div>
+</div>
